@@ -21,10 +21,28 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
+java {
+    withSourcesJar()
+}
+
+tasks {
+    dokkaJavadoc {
+        outputDirectory.set(file("$buildDir/javadoc"))
+    }
+
+    val javadocJar by registering(Jar::class) {
+        group = "build"
+        archiveClassifier.set("javadoc")
+        dependsOn("dokkaJavadoc")
+        from("$buildDir/javadoc")
+    }
+}
+
 publishing {
     publications {
         register<MavenPublication>("Jar") {
             from(components["java"])
+            artifact(tasks["javadocJar"])
             artifactId = "hello"
         }
     }
