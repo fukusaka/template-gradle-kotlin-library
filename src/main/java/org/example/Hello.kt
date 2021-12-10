@@ -1,3 +1,5 @@
+package org.example
+
 @Suppress("unused")
 object Hello {
     /**
