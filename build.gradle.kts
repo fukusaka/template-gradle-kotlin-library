@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "1.6.0"
-    id("org.jetbrains.dokka") version "1.6.0"
     id("maven-publish")
 }
 
@@ -19,26 +18,13 @@ tasks.getByName<Test>("test") {
 
 java {
     withSourcesJar()
-}
-
-tasks {
-    dokkaJavadoc {
-        outputDirectory.set(file("$buildDir/javadoc"))
-    }
-
-    val javadocJar by registering(Jar::class) {
-        group = "build"
-        archiveClassifier.set("javadoc")
-        dependsOn("dokkaJavadoc")
-        from("$buildDir/javadoc")
-    }
+    withJavadocJar()
 }
 
 publishing {
     publications {
         register<MavenPublication>("Jar") {
             from(components["java"])
-            artifact(tasks["javadocJar"])
             artifactId = "hello"
         }
     }
