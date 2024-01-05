@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.10"
+    alias(libs.plugins.kotlinJvm) apply true
     id("maven-publish")
 }
 
@@ -7,9 +7,10 @@ group = "org.example"
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    implementation(platform(libs.kotlin.bom))
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.getByName<Test>("test") {
